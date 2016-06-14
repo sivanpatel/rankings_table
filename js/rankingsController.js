@@ -1,0 +1,3 @@
+rankingsTable.controller('rankingsController', [function() {
+  
+}])
