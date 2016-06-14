@@ -11,7 +11,7 @@ rankingsTable.controller('rankingsController', [function() {
                       ]
 
   self.pointDifference = function(homeTeamPoints, awayTeamPoints) {
-      return (homeTeamPoints + 3) - awayTeamPoints
+      return parseFloat(((homeTeamPoints + 3) - awayTeamPoints).toFixed(2))
   }
 
 }])
