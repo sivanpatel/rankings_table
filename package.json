@@ -1,0 +1,34 @@
+{
+  "name": "rankings_table",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sivanpatel/rankings_table.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sivanpatel/rankings_table/issues"
+  },
+  "homepage": "https://github.com/sivanpatel/rankings_table#readme",
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7",
+    "protractor": "^3.3.0"
+  },
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}
