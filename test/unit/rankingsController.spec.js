@@ -24,10 +24,6 @@ describe('rankingsController', function() {
     expect(ctrl.pointDifference(4.5, 3)).toEqual(4.50)
   })
 
-  it('creates an array of all possible combinations of an array with length 2', function() {
-    expect(ctrl.createCombinations([1,2,3,4,5]).length).toEqual(20)
-  })
-
   it('creates a match', function() {
     expect(ctrl.createMatch(undefined ,"England", "Romania")).toEqual({ matchId: undefined, description: 'Match undefined', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
   })
