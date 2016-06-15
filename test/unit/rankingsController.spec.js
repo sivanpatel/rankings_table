@@ -9,7 +9,7 @@ describe('rankingsController', function() {
   }))
 
   it('finds the team object from the array', function() {
-    expect(ctrl.findTeam("England")).toEqual({ "team": { "name": "England", "id": 1, "abbreviation": "ENG" }, "pos": 4, "pts": 52.32 })
+    expect(ctrl.findTeam("England")).toEqual({ "team": { "name": "England", "id": 1 }, "pos": 4, "pts": 52.32 })
   })
 
   it('correctly calculates the point difference when the home team has a higher score', function() {
@@ -25,11 +25,30 @@ describe('rankingsController', function() {
   })
 
   it('creates an array of all possible combinations of an array with length 2', function() {
-    expect(ctrl.createMatches([1,2,3,4,5]).length).toEqual(20)
+    expect(ctrl.createCombinations([1,2,3,4,5]).length).toEqual(20)
   })
 
   it('creates a match', function() {
-    expect(ctrl.createMatch("England", "Romania")).toEqual({ matchId: undefined, description: 'Match undefined', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
+    expect(ctrl.createMatch(undefined ,"England", "Romania")).toEqual({ matchId: undefined, description: 'Match undefined', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
   })
 
+  it('creates all matches', function() {
+    expect(ctrl.createMatches().length).toEqual(20)
+  })
+
+  it('checks scores and returns the first team as a winner', function() {
+    expect(ctrl.checkWinner([10,0])).toEqual("A")
+  })
+
+  it('checks scores and returns the second team as a winner', function() {
+    expect(ctrl.checkWinner([0,10])).toEqual("B")
+  })
+
+  it('checks scores and returns a draw if the teams have the same score', function() {
+    expect(ctrl.checkWinner([10,10])).toEqual("D")
+  })
+
+  it('checks for a no result', function() {
+    expect(ctrl.checkWinner([])).toEqual("N")
+  })
 })
