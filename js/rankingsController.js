@@ -10,8 +10,18 @@ rankingsTable.controller('rankingsController', [function() {
                         { "team": { "name": "Romania", "id": 24 }, "pos": 5, "pts": 43.50 }
                       ]
 
+  self.findTeam = function(teamName) {
+    for(var i=0; i<self.rankingsData.length; i++) {
+      if(self.rankingsData[i].team.name === teamName) {
+        return self.rankingsData[i]
+      }
+    }
+  }
+
   self.pointDifference = function(homeTeamPoints, awayTeamPoints) {
       return parseFloat(((homeTeamPoints + 3) - awayTeamPoints).toFixed(2))
   }
+
+  
 
 }])
