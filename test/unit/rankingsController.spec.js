@@ -104,4 +104,13 @@ describe('rankingsController', function() {
     expect(ctrl.rankingsData[1].pts).toEqual(54.32)
   })
 
+  it('updates the rankings after a match', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("France", "England", 19, 23)
+    ctrl.calculatePoints()
+    ctrl.updateRankings()
+    expect(ctrl.rankingsData[2].team.name).toEqual("England")
+    expect(ctrl.rankingsData[2].pos).toEqual(3)
+  })
+
 })

@@ -105,4 +105,13 @@ rankingsTable.controller('rankingsController', [function() {
     }
   }
 
+  self.updateRankings = function() {
+    self.rankingsData.sort(function(a, b) {
+      return b.pts - a.pts
+    })
+    for(var i=0; i<self.rankingsData.length; i++) {
+      self.rankingsData[i].pos = i + 1
+    }
+  }
+
 }])
