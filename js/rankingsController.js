@@ -60,7 +60,9 @@ rankingsTable.controller('rankingsController', [function() {
 
   self.addMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
     for(var i=0; i<self.allMatches.length; i++) {
-      if(self.allMatches[i].teams[0].name === awayTeam && self.allMatches[i].teams[1].name === homeTeam) {
+      if (self.allMatches[i].status === "C") {
+        throw "This match has already been played"
+      } else if(self.allMatches[i].teams[0].name === awayTeam && self.allMatches[i].teams[1].name === homeTeam) {
         self.allMatches[i].scores[0] = homeScore
         self.allMatches[i].scores[1] = awayScore
         self.allMatches[i].status = "C"
