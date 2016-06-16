@@ -24,6 +24,18 @@ rankingsTable.controller('rankingsController', [function() {
       return parseFloat(((homeTeamPoints + 3) - awayTeamPoints).toFixed(2))
   }
 
+  self.checkWinner = function(scoreArray) {
+    if(scoreArray[0] > scoreArray[1]) {
+      return "A"
+    } else if (scoreArray[0] < scoreArray[1]) {
+      return "B"
+    } else if (!scoreArray[0] && !scoreArray[1]) {
+      return "N"
+    } else if (scoreArray[0] === scoreArray[1]){
+      return "D"
+    }
+  }
+
   self.createMatch = function(index, homeTeam, awayTeam) {
     var index = index
     var homeTeam = self.findTeam(homeTeam)
@@ -46,17 +58,18 @@ rankingsTable.controller('rankingsController', [function() {
     return self.allMatches
   }
 
-  self.checkWinner = function(scoreArray) {
-    if(scoreArray[0] > scoreArray[1]) {
-      return "A"
-    } else if (scoreArray[0] < scoreArray[1]) {
-      return "B"
-    } else if (!scoreArray[0] && !scoreArray[1]) {
-      return "N"
-    } else if (scoreArray[0] === scoreArray[1]){
-      return "D"
+  self.addMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
+    for(var i=0; i<self.allMatches.length; i++) {
+      if(self.allMatches[i].teams[0].name === awayTeam && self.allMatches[i].teams[1].name === homeTeam) {
+        self.allMatches[i].scores[0] = homeScore
+        self.allMatches[i].scores[1] = awayScore
+        self.allMatches[i].status = "C"
+        self.allMatches[i].outcome = self.checkWinner(self.allMatches[i].scores)
+      }
     }
   }
+
+
 
 
 

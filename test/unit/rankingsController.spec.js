@@ -25,7 +25,7 @@ describe('rankingsController', function() {
   })
 
   it('creates a match', function() {
-    expect(ctrl.createMatch(undefined ,"England", "Romania")).toEqual({ matchId: undefined, description: 'Match undefined', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
+    expect(ctrl.createMatch(undefined ,"England", "Romania")).toEqual({ matchId: NaN, description: 'Match NaN', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
   })
 
   it('creates all matches', function() {
@@ -47,4 +47,12 @@ describe('rankingsController', function() {
   it('checks for a no result', function() {
     expect(ctrl.checkWinner([])).toEqual("N")
   })
+
+  it('adds a match result', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 10, 0)
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 10, 0 ], status: 'C', outcome: 'A' })
+  })
+
+  
 })
