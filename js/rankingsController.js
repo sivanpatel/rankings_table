@@ -21,7 +21,14 @@ rankingsTable.controller('rankingsController', [function() {
   }
 
   self.pointDifference = function(homeTeamPoints, awayTeamPoints) {
-      return parseFloat(((homeTeamPoints + 3) - awayTeamPoints).toFixed(2))
+      var pointDifference = parseFloat(((homeTeamPoints + 3) - awayTeamPoints).toFixed(2))
+      if(pointDifference<10 && pointDifference>-10) {
+        return pointDifference
+      } else if(pointDifference <= -10) {
+        return -10
+      } else if(pointDifference >= 10){
+        return 10
+      }
   }
 
   self.checkWinner = function(scoreArray) {
@@ -51,7 +58,10 @@ rankingsTable.controller('rankingsController', [function() {
   }
 
   self.createMatches = function() {
-    var matchCombinations = new createCombinations(self.rankingsData)
+    var matches = new createCombinations(self.rankingsData)
+    var reversedMatches = new createCombinations(self.rankingsData)
+    reversedMatches.forEach(function(match) {match.reverse()})
+    var matchCombinations = matches.concat(reversedMatches)
     for(var i=0; i<matchCombinations.length; i++) {
       self.allMatches.push(self.createMatch(i, matchCombinations[i][0].team.name, matchCombinations[i][1].team.name))
     }
@@ -62,7 +72,7 @@ rankingsTable.controller('rankingsController', [function() {
     for(var i=0; i<self.allMatches.length; i++) {
       if (self.allMatches[i].status === "C") {
         throw "This match has already been played"
-      } else if(self.allMatches[i].teams[0].name === awayTeam && self.allMatches[i].teams[1].name === homeTeam) {
+      } else if(self.allMatches[i].teams[0].name === homeTeam && self.allMatches[i].teams[1].name === awayTeam) {
         self.allMatches[i].scores[0] = homeScore
         self.allMatches[i].scores[1] = awayScore
         self.allMatches[i].status = "C"
@@ -71,8 +81,28 @@ rankingsTable.controller('rankingsController', [function() {
     }
   }
 
+  self.calculatePoints = function() {
+    for(var i=0; i<self.allMatches.length; i++) {
+      if(self.allMatches[i].status === "C") {
+        var homeIndex = self.rankingsData.indexOf(self.findTeam(self.allMatches[i].teams[0].name))
+        var awayIndex = self.rankingsData.indexOf(self.findTeam(self.allMatches[i].teams[1].name))
+        var pointDifference = self.pointDifference(self.rankingsData[homeIndex].pts, self.rankingsData[awayIndex].pts)/10
+        self.addPoints(i, homeIndex, awayIndex, pointDifference)
+      }
+    }
+  }
 
-
-
+  self.addPoints = function(i, homeIndex, awayIndex, pointDifference) {
+    if(self.allMatches[i].outcome === "A") {
+      self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts + 1 - pointDifference).toFixed(2))
+      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts - 1 - pointDifference).toFixed(2))
+    } else if(self.allMatches[i].outcome === "B") {
+      self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts - 1 - pointDifference).toFixed(2))
+      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts + 1 - pointDifference).toFixed(2))
+    } else if(self.allMatches[i].outcome === "D") {
+      self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts + pointDifference).toFixed(2))
+      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts + pointDifference).toFixed(2))
+    }
+  }
 
 }])

@@ -25,9 +25,7 @@ function createCombinations(array) {
       combinations.push(all[i])
     }
   }
-  for(var i=0; i<10; i++) {
-    combinations.push(combinations[i].reverse())
-  }
 
   return combinations
+
 }

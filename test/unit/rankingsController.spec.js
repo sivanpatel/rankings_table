@@ -24,6 +24,14 @@ describe('rankingsController', function() {
     expect(ctrl.pointDifference(4.5, 3)).toEqual(4.50)
   })
 
+  it('correctly calculates the point difference when the points difference is greater than 10', function() {
+    expect(ctrl.pointDifference(20, 3)).toEqual(10.00)
+  })
+
+  it('correctly calculates the point difference when the points difference is less than -10', function() {
+    expect(ctrl.pointDifference(10, 30)).toEqual(-10.00)
+  })
+
   it('creates a match', function() {
     expect(ctrl.createMatch(undefined ,"England", "Romania")).toEqual({ matchId: NaN, description: 'Match NaN', teams: [ Object({ id: 1, name: 'England', abbreviation: 'ENG' }), Object({ id: 24, name: 'Romania', abbreviation: 'ROM' }) ], scores: [  ], status: 'U', outcome: 'N' })
   })
@@ -51,25 +59,49 @@ describe('rankingsController', function() {
   it('adds a match result for a home win', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 10, 0)
-    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 10, 0 ], status: 'C', outcome: 'A' })
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }), Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }) ], scores: [ 10, 0 ], status: 'C', outcome: 'A' })
   })
 
   it('adds a match result for an away win', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 0, 10)
-    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 0, 10 ], status: 'C', outcome: 'B' })
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }), Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }) ], scores: [ 0, 10 ], status: 'C', outcome: 'B' })
   })
 
   it('adds a match result for a draw', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 10, 10)
-    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 10, 10 ], status: 'C', outcome: 'D' })
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }), Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }) ], scores: [ 10, 10 ], status: 'C', outcome: 'D' })
   })
 
   it('alerts when trying to play a match for the second time', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 10, 10)
     expect(function() { ctrl.addMatch("Australia", "New Zealand", 10, 10) }).toThrow("This match has already been played")
+  })
+
+  it('correctly calculates the new points for both teams after the home team has won a match', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 10, 0)
+    ctrl.calculatePoints()
+    expect(ctrl.rankingsData[0].pts).toEqual(54.91)
+    expect(ctrl.rankingsData[1].pts).toEqual(52.68)
+  })
+
+  it('correctly calculates the new points for both teams after the away team has won a match', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 0, 10)
+    ctrl.calculatePoints()
+    expect(ctrl.rankingsData[0].pts).toEqual(52.91)
+    expect(ctrl.rankingsData[1].pts).toEqual(54.68)
+  })
+
+  it('correctly calculates the new points for both teams after a draw', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 10, 10)
+    ctrl.calculatePoints()
+    expect(ctrl.rankingsData[0].pts).toEqual(54.55)
+    expect(ctrl.rankingsData[1].pts).toEqual(54.32)
   })
 
 })
