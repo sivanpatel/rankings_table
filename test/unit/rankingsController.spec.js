@@ -48,11 +48,22 @@ describe('rankingsController', function() {
     expect(ctrl.checkWinner([])).toEqual("N")
   })
 
-  it('adds a match result', function() {
+  it('adds a match result for a home win', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 10, 0)
     expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 10, 0 ], status: 'C', outcome: 'A' })
   })
 
-  
+  it('adds a match result for an away win', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 0, 10)
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 0, 10 ], status: 'C', outcome: 'B' })
+  })
+
+  it('adds a match result for a draw', function() {
+    ctrl.createMatches()
+    ctrl.addMatch("Australia", "New Zealand", 10, 10)
+    expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }), Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }) ], scores: [ 10, 10 ], status: 'C', outcome: 'D' })
+  })
+
 })
