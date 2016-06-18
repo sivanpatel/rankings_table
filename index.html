@@ -12,11 +12,26 @@
     <script src="js/rankingsController.js"></script>
   </head>
 
-  <body ng-controller="rankingsController as rankCtrl">
+  <body ng-controller="rankingsController as rankCtrl" ng-init="rankCtrl.createMatches()">
 
-  <div ng-repeat="team in rankCtrl.rankingsData">
-    
+  <table>
+    <tr>
+      <th>Position</th>
+      <th>Team</th>
+      <th>Points</th>
+    </tr>
+    <tr ng-repeat="team in rankCtrl.rankingsData | orderBy:'pos'">
+      <td>{{team.pos}}</td>
+      <td>{{team.team.name}}</td>
+      <td>{{team.pts}}</td>
+    </tr>
+  </table>
+
+  <div id="matches"ng-repeat="match in rankCtrl.allMatches | orderBy:rankCtrl.random">
+    {{match.teams[0].name}}  vs  {{match.teams[1].name}} <br>
+    <input type="text" id="homeScore" ng-model="rankCtrl.homeScore[$index]"> <input type="text" id="awayScore" ng-model="rankCtrl.awayScore[$index]">
   </div>
+  <button type="button" ng-click="rankCtrl.predictMatches()">Predict yoself!</button>
   </body>
 
 </html>

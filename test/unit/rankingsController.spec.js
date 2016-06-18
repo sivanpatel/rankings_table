@@ -74,12 +74,6 @@ describe('rankingsController', function() {
     expect(ctrl.allMatches[0]).toEqual({ matchId: 1, description: 'Match 1', teams: [ Object({ id: 32, name: 'Australia', abbreviation: 'AUS' }), Object({ id: 62, name: 'New Zealand', abbreviation: 'NEW' }) ], scores: [ 10, 10 ], status: 'C', outcome: 'D' })
   })
 
-  it('alerts when trying to play a match for the second time', function() {
-    ctrl.createMatches()
-    ctrl.addMatch("Australia", "New Zealand", 10, 10)
-    expect(function() { ctrl.addMatch("Australia", "New Zealand", 10, 10) }).toThrow("This match has already been played")
-  })
-
   it('correctly calculates the new points for both teams after the home team has won a match', function() {
     ctrl.createMatches()
     ctrl.addMatch("Australia", "New Zealand", 10, 0)

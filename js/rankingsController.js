@@ -11,6 +11,18 @@ rankingsTable.controller('rankingsController', [function() {
                       ]
 
   self.allMatches = []
+  self.homeScore = []
+  self.awayScore = []
+
+  self.predictMatches = function() {
+    for(var i=0; i<self.allMatches.length; i++) {
+      if(self.homeScore[i] && self.awayScore[i]) {
+        self.addLiveMatch(self.allMatches[i].teams[0].name, self.allMatches[i].teams[1].name, self.homeScore[i], self.awayScore[i])
+      }
+    }
+    self.calculatePoints()
+    self.updateRankings()
+  }
 
   self.findTeam = function(teamName) {
     for(var i=0; i<self.rankingsData.length; i++) {
@@ -65,17 +77,15 @@ rankingsTable.controller('rankingsController', [function() {
     for(var i=0; i<matchCombinations.length; i++) {
       self.allMatches.push(self.createMatch(i, matchCombinations[i][0].team.name, matchCombinations[i][1].team.name))
     }
-    return self.allMatches
+    return self.shuffleMatches(self.allMatches)
   }
 
-  self.addMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
+  self.addLiveMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
     for(var i=0; i<self.allMatches.length; i++) {
-      if (self.allMatches[i].status === "C") {
-        throw "This match has already been played"
-      } else if(self.allMatches[i].teams[0].name === homeTeam && self.allMatches[i].teams[1].name === awayTeam) {
+      if(self.allMatches[i].teams[0].name === homeTeam && self.allMatches[i].teams[1].name === awayTeam && self.allMatches[i].status !== "C") {
         self.allMatches[i].scores[0] = homeScore
         self.allMatches[i].scores[1] = awayScore
-        self.allMatches[i].status = "C"
+        self.allMatches[i].status = "L"
         self.allMatches[i].outcome = self.checkWinner(self.allMatches[i].scores)
       }
     }
@@ -83,11 +93,12 @@ rankingsTable.controller('rankingsController', [function() {
 
   self.calculatePoints = function() {
     for(var i=0; i<self.allMatches.length; i++) {
-      if(self.allMatches[i].status === "C") {
+      if(self.allMatches[i].status === "L") {
         var homeIndex = self.rankingsData.indexOf(self.findTeam(self.allMatches[i].teams[0].name))
         var awayIndex = self.rankingsData.indexOf(self.findTeam(self.allMatches[i].teams[1].name))
         var pointDifference = self.pointDifference(self.rankingsData[homeIndex].pts, self.rankingsData[awayIndex].pts)/10
         self.addPoints(i, homeIndex, awayIndex, pointDifference)
+        self.allMatches[i].status = "C"
       }
     }
   }
@@ -114,4 +125,13 @@ rankingsTable.controller('rankingsController', [function() {
     }
   }
 
+  self.shuffleMatches = function (array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1))
+          var temp = array[i]
+          array[i] = array[j]
+          array[j] = temp
+      }
+      return array
+  }
 }])
