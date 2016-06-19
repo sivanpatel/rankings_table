@@ -18,7 +18,7 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
   self.predictMatches = function() {
     for(var i=0; i<self.allMatches.length; i++) {
       if(self.homeScore[i] && self.awayScore[i]) {
-        self.addLiveMatch(self.allMatches[i].teams[0].name, self.allMatches[i].teams[1].name, self.homeScore[i], self.awayScore[i])
+        self.addMatch(self.allMatches[i].teams[0].name, self.allMatches[i].teams[1].name, self.homeScore[i], self.awayScore[i])
       }
     }
     self.calculatePoints()
@@ -81,7 +81,7 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
     return self.shuffleMatches(self.allMatches)
   }
 
-  self.addLiveMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
+  self.addMatch = function(homeTeam, awayTeam, homeScore, awayScore) {
     for(var i=0; i<self.allMatches.length; i++) {
       if(self.allMatches[i].teams[0].name === homeTeam && self.allMatches[i].teams[1].name === awayTeam && self.allMatches[i].status !== "C") {
         self.allMatches[i].scores[0] = homeScore
