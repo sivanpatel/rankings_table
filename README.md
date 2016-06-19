@@ -64,5 +64,6 @@ If the protractor tests fail without running, you may need to update your versio
 #### Things to do
 * Reinstate tests that failed due to extracting json retrieval to a factory
 * More feature testing, pretty basic tests at the moment
+* Some error handling, at the moment have just made the input read only when the match has been simulated, maybe better to make it so you can change the result but it warns you beforehand that you have simulated it once (ie, undo the previously played match then simulate the new one)
 * More styling - fairly barebones at the moment
 
