@@ -36,14 +36,14 @@
     <td id="col2">
       <div id="matches" class="right col-md-6"ng-repeat="match in rankCtrl.allMatches | orderBy:rankCtrl.random">
         {{match.teams[0].name}}  vs  {{match.teams[1].name}} <br>
-        <input type="text" id="homeScore" ng-model="rankCtrl.homeScore[$index]" placeholder="H"> <input type="text" id="awayScore" ng-model="rankCtrl.awayScore[$index]" placeholder="A">
+        <input type="text" id="homeScore" ng-model="rankCtrl.homeScore[$index]" placeholder="H" ng-readonly="rankCtrl.matchPlayed($index)"> <input type="text" id="awayScore" ng-model="rankCtrl.awayScore[$index]" placeholder="A" ng-readonly="rankCtrl.matchPlayed($index)">
       </div>
     </td>
   </table>
 
   <br>
 
-  <button type="button" class="btn" ng-click="rankCtrl.predictMatches()">Predict Matches</button>
+  <button type="button" class="btn" ng-click="rankCtrl.predictMatches()">Submit Scores</button>
 
   </body>
 

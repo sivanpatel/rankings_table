@@ -126,7 +126,7 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
     }
   }
 
-  self.shuffleMatches = function (array) {
+  self.shuffleMatches = function(array) {
       for (var i = array.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1))
           var temp = array[i]
@@ -136,4 +136,11 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
       return array
   }
 
+  self.matchPlayed = function(index) {
+    if(self.allMatches[index].status==="C") {
+      return true
+    } else {
+      return false
+    }
+  }
 }])
