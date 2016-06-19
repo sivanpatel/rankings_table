@@ -1,0 +1,22 @@
+body {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+#matches {
+  text-align: center;
+}
+
+#bodyTable #col2 {
+  width: 50%;
+}
+
+button {
+  position: relative;
+  margin-left: 50%;
+}
+
+input {
+  width: 40px;
+  text-align: center;
+}

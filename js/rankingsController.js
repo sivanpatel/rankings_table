@@ -1,18 +1,19 @@
-rankingsTable.controller('rankingsController', [function() {
+rankingsTable.controller('rankingsController', ['rankingFactory', '$http', function(rankingFactory) {
 
   var self = this
-
-  self.rankingsData = [
-                        { "team": { "name": "Australia", "id": 32 }, "pos": 1, "pts": 54.23 },
-                        { "team": { "name": "New Zealand", "id": 62 }, "pos": 2, "pts": 54.00 },
-                        { "team": { "name": "France", "id": 2 }, "pos": 3, "pts": 52.95 },
-                        { "team": { "name": "England", "id": 1 }, "pos": 4, "pts": 52.32 },
-                        { "team": { "name": "Romania", "id": 24 }, "pos": 5, "pts": 43.50 }
-                      ]
 
   self.allMatches = []
   self.homeScore = []
   self.awayScore = []
+
+  var initialRanking = function() {
+    rankingFactory.then(function(response) {
+      self.rankingsData = response.data
+      self.createMatches(response.data)
+    })
+  }
+
+  initialRanking()
 
   self.predictMatches = function() {
     for(var i=0; i<self.allMatches.length; i++) {
@@ -24,7 +25,7 @@ rankingsTable.controller('rankingsController', [function() {
     self.updateRankings()
   }
 
-  self.findTeam = function(teamName) {
+  self.findTeam = function(teamName, teamsArray) {
     for(var i=0; i<self.rankingsData.length; i++) {
       if(self.rankingsData[i].team.name === teamName) {
         return self.rankingsData[i]
@@ -69,9 +70,9 @@ rankingsTable.controller('rankingsController', [function() {
     return match
   }
 
-  self.createMatches = function() {
-    var matches = new createCombinations(self.rankingsData)
-    var reversedMatches = new createCombinations(self.rankingsData)
+  self.createMatches = function(teamsArray) {
+    var matches = new createCombinations(teamsArray)
+    var reversedMatches = new createCombinations(teamsArray)
     reversedMatches.forEach(function(match) {match.reverse()})
     var matchCombinations = matches.concat(reversedMatches)
     for(var i=0; i<matchCombinations.length; i++) {
@@ -134,4 +135,5 @@ rankingsTable.controller('rankingsController', [function() {
       }
       return array
   }
+
 }])

@@ -3,35 +3,48 @@
   <head>
     <meta charset="utf-8">
     <title>Score Predictor</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="js/app.js"></script>
     <script src="js/combination.js"></script>
     <script src="js/match.js"></script>
     <script src="js/rankingsController.js"></script>
+    <script src="js/rankingFactory.js"></script>
   </head>
 
-  <body ng-controller="rankingsController as rankCtrl" ng-init="rankCtrl.createMatches()">
+  <body ng-controller="rankingsController as rankCtrl">
 
-  <table>
-    <tr>
-      <th>Position</th>
-      <th>Team</th>
-      <th>Points</th>
-    </tr>
-    <tr ng-repeat="team in rankCtrl.rankingsData | orderBy:'pos'">
-      <td>{{team.pos}}</td>
-      <td>{{team.team.name}}</td>
-      <td>{{team.pts}}</td>
-    </tr>
+  <table id="bodyTable">
+    <td id="col1">
+      <table id="table" class="left col-md-6 table table-striped">
+        <tr>
+          <th>Position</th>
+          <th>Team</th>
+          <th>Points</th>
+        </tr>
+        <tr ng-repeat="team in rankCtrl.rankingsData | orderBy:'pos'">
+          <td>{{team.pos}}</td>
+          <td>{{team.team.name}}</td>
+          <td>{{team.pts}}</td>
+        </tr>
+      </table>
+    </td>
+    <td id="col2">
+      <div id="matches" class="right col-md-6"ng-repeat="match in rankCtrl.allMatches | orderBy:rankCtrl.random">
+        {{match.teams[0].name}}  vs  {{match.teams[1].name}} <br>
+        <input type="text" id="homeScore" ng-model="rankCtrl.homeScore[$index]" placeholder="H"> <input type="text" id="awayScore" ng-model="rankCtrl.awayScore[$index]" placeholder="A">
+      </div>
+    </td>
   </table>
 
-  <div id="matches"ng-repeat="match in rankCtrl.allMatches | orderBy:rankCtrl.random">
-    {{match.teams[0].name}}  vs  {{match.teams[1].name}} <br>
-    <input type="text" id="homeScore" ng-model="rankCtrl.homeScore[$index]"> <input type="text" id="awayScore" ng-model="rankCtrl.awayScore[$index]">
-  </div>
-  <button type="button" ng-click="rankCtrl.predictMatches()">Predict yoself!</button>
+  <br>
+  
+  <button type="button" class="btn" ng-click="rankCtrl.predictMatches()">Predict Matches</button>
+
   </body>
 
 </html>
