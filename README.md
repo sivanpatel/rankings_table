@@ -30,7 +30,7 @@ If the protractor tests fail without running, you may need to update your versio
 
 * The bulk of the code can be found inside the js folder - with rankingsController.js having the majority of the logic
 * The tests can be found in the test file, separated into two files, one for unit testing (unit), and one for feature testing (e2e)
-  ```.
+ ````
   ├── README.md
   ├── bower.json
   ├── bower_components
