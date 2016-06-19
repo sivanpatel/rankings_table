@@ -11,6 +11,8 @@ $ http-server
 ````
 Visit: http://localhost:8080
 
+I have put the sample rankings from the provided pdf in rankings.json (in the home directory), simply replace those with different values and reload the page to see the changes.
+
 To run the tests:
 
 1.For Karma (unit) tests:

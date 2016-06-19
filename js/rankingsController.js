@@ -6,14 +6,14 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
   self.homeScore = []
   self.awayScore = []
 
-  var initialRanking = function() {
+  var init = function() {
     rankingFactory.then(function(response) {
       self.rankingsData = response.data
       self.createMatches(response.data)
     })
   }
 
-  initialRanking()
+  init()
 
   self.predictMatches = function() {
     for(var i=0; i<self.allMatches.length; i++) {
