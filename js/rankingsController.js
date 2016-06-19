@@ -107,10 +107,10 @@ rankingsTable.controller('rankingsController', ['rankingFactory', '$http', funct
   self.addPoints = function(i, homeIndex, awayIndex, pointDifference) {
     if(self.allMatches[i].outcome === "A") {
       self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts + 1 - pointDifference).toFixed(2))
-      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts - 1 - pointDifference).toFixed(2))
+      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts - 1 + pointDifference).toFixed(2))
     } else if(self.allMatches[i].outcome === "B") {
       self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts - 1 - pointDifference).toFixed(2))
-      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts + 1 - pointDifference).toFixed(2))
+      self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts + 1 + pointDifference).toFixed(2))
     } else if(self.allMatches[i].outcome === "D") {
       self.rankingsData[homeIndex].pts = parseFloat((self.rankingsData[homeIndex].pts + pointDifference).toFixed(2))
       self.rankingsData[awayIndex].pts = parseFloat((self.rankingsData[awayIndex].pts + pointDifference).toFixed(2))
