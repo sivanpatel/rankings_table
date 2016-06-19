@@ -30,7 +30,7 @@ If the protractor tests fail without running, you may need to update your versio
 
 * The bulk of the code can be found inside the js folder - with rankingsController.js having the majority of the logic
 * The tests can be found in the test file, separated into two files, one for unit testing (unit), and one for feature testing (e2e)
- ````
+````
   ├── README.md
   ├── bower.json
   ├── bower_components
@@ -53,7 +53,7 @@ If the protractor tests fail without running, you may need to update your versio
       └── unit
           ├── karma.conf.js
           └── rankingsController.spec.js`
-  ````
+````
 #### My approach
 * I created a simple JSON file to store the product information in, and used a factory to incorporate that data in my app
 * I decided to use AngularJS for the development of this
